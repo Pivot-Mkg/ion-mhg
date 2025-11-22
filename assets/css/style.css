@@ -64,11 +64,9 @@ h6 {
 }
 
 .navbar {
-  background: linear-gradient(
-    90deg,
-    rgba(12, 51, 101, 0.94),
-    rgba(7, 35, 78, 0.94)
-  );
+  background: linear-gradient(90deg,
+      rgba(12, 51, 101, 0.94),
+      rgba(7, 35, 78, 0.94));
   backdrop-filter: blur(14px);
   transition: all 0.3s ease;
   z-index: 1001;
@@ -87,9 +85,11 @@ h6 {
   font-weight: 400;
   font-size: 13px;
 }
+
 .text-primary {
   color: #002672 !important;
 }
+
 .navbar .nav-link:hover,
 .navbar .nav-link:focus {
   color: #ffffff;
@@ -111,6 +111,30 @@ h6 {
   background: linear-gradient(90deg, #64dfff 0%, #5ed715 100%);
   transition: width 0.3s ease;
 }
+
+.nav-link a {
+  position: relative;
+  padding: 0.5rem 0;
+  transition: color 0.3s ease;
+}
+.footer-links a {
+  position: relative;
+}
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, #64dfff 0%, #5ed715 100%);
+  transition: width 0.3s ease;
+}
+
+.footer-links a:hover::after {
+  width: 37%;
+}
+
 .nav-link.active::after {
   content: "";
   position: absolute;
@@ -125,6 +149,7 @@ h6 {
 .nav-link:hover::after {
   width: 100%;
 }
+
 .navbar .icon {
   padding: 0.35rem 0.5rem;
   border-radius: 50%;
@@ -211,9 +236,11 @@ h6 {
   border: 2px solid #0197db;
   color: #fff;
 }
-.btn-brand:hover svg{
+
+.btn-brand:hover svg {
   /* fill: #fff; */
 }
+
 .btn-outline-light {
   border-radius: 999px;
   border: 2px solid #0197db;
@@ -356,17 +383,15 @@ h6 {
 .story-panel {
   box-shadow: var(--shadow);
   position: absolute;
-  bottom:-35px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%) translateY(50%);
   width: 80%;
   max-width: 1000px;
   border-radius: 7px;
-  background: linear-gradient(
-    180deg,
-    rgba(4, 31, 71, 0.92) 0%,
-    rgba(14, 68, 122, 0.92) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(4, 31, 71, 0.92) 0%,
+      rgba(14, 68, 122, 0.92) 100%);
   padding: 1.5rem;
   margin-bottom: -50px;
   z-index: 9;
@@ -388,7 +413,7 @@ h6 {
   text-align: center;
 }
 
-.story-overlay > div {
+.story-overlay>div {
   position: relative;
   padding: 0 1.5rem;
   display: flex;
@@ -396,7 +421,7 @@ h6 {
   align-items: center;
 }
 
-.story-overlay > div:not(:last-child)::after {
+.story-overlay>div:not(:last-child)::after {
   content: "";
   position: absolute;
   right: -0.75rem;
@@ -445,11 +470,9 @@ h6 {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 42%,
-    rgba(3, 39, 86, 0.65) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0) 42%,
+      rgba(3, 39, 86, 0.65) 100%);
   z-index: 1;
   transition: opacity 0.3s ease;
 }
@@ -471,9 +494,8 @@ h6 {
 
 @supports (clip-path: path("M0 0H100V100H0Z")) {
   .industry-info {
-    clip-path: path(
-      "M0 0 H76% C82% 0 84% 10% 88% 16% L100% 16% L100% 100% L0 100% Z"
-    );
+    clip-path: path("M0 0 H76% C82% 0 84% 10% 88% 16% L100% 16% L100% 100% L0 100% Z"
+      );
   }
 }
 
@@ -492,7 +514,7 @@ h6 {
   margin-top: 7px;
   max-height: 0;
   transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease;
+  transition: all 1s ease;
 }
 
 .industry-card:hover {
@@ -720,7 +742,8 @@ h6 {
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
-  line-height: 20px; /* 90.909% */
+  line-height: 20px;
+  /* 90.909% */
 }
 
 .case-list {
@@ -754,25 +777,34 @@ h6 {
 
 .case-dots {
   position: absolute;
-  top: 1.6rem;
-  left: 1.8rem;
+  top: 13px;
+  left: 25px;
   display: flex;
   gap: 0.45rem;
+  z-index: 2;
 }
 
-.case-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: #d5def0;
-  opacity: 0.6;
-  transition: all 0.3s ease;
+.case-card-arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(3, 21, 52, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--primary);
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 19, 53, 0.12);
+  transition: all 0.25s ease;
 }
 
-.case-dot.is-active {
-  width: 26px;
-  opacity: 1;
+.case-card-arrow:hover,
+.case-card-arrow:focus-visible {
   background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  outline: none;
 }
 
 .case-nav {
@@ -800,7 +832,7 @@ h6 {
 }
 
 .case-arrow:hover {
-  background: var(--accent);
+  background: var(--primary);
   border-color: transparent;
   color: #fff;
   box-shadow: 0 12px 22px rgba(27, 198, 214, 0.35);
@@ -1023,7 +1055,7 @@ footer .link-secondary:hover {
   border: 0;
 }
 
- 
+
 .object-fit-cover {
   object-fit: cover;
 }

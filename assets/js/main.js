@@ -36,7 +36,86 @@ window.addEventListener('DOMContentLoaded', () => {
       once: true,
     });
 
-    // Animate counting numbers
+    // Video play functionality
+    const videoContainer = document.getElementById('videoContainer');
+    const video = document.getElementById('sustainabilityVideo');
+    const videoPlayer = document.getElementById('videoPlayer');
+    const sustainabilityImage = document.getElementById('sustainabilityImage');
+    const playButton = videoContainer ? videoContainer.querySelector('.play-button') : null;
+    let isVideoPlaying = false;
+
+    if (videoContainer && video && videoPlayer && sustainabilityImage) {
+      // Toggle play/pause on video click
+      videoContainer.addEventListener('click', function(e) {
+        // Don't toggle if clicking on the play button directly
+        if (playButton && playButton.contains(e.target)) {
+          return;
+        }
+        
+        if (isVideoPlaying) {
+          video.pause();
+          videoPlayer.style.display = 'none';
+          sustainabilityImage.style.display = 'block';
+          if (playButton) playButton.style.display = 'block';
+          isVideoPlaying = false;
+        } else {
+          videoPlayer.style.display = 'block';
+          sustainabilityImage.style.display = 'none';
+          if (playButton) playButton.style.display = 'none';
+          
+          // Play the video and handle any errors
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(error => {
+              console.error('Error playing video:', error);
+              videoPlayer.style.display = 'none';
+              sustainabilityImage.style.display = 'block';
+              if (playButton) playButton.style.display = 'block';
+            }).then(() => {
+              isVideoPlaying = true;
+            });
+          } else {
+            isVideoPlaying = true;
+          }
+        }
+      });
+
+      // Handle video end
+      video.addEventListener('ended', function() {
+        videoPlayer.style.display = 'none';
+        sustainabilityImage.style.display = 'block';
+        if (playButton) playButton.style.display = 'block';
+        isVideoPlaying = false;
+        video.currentTime = 0; // Reset video to start
+      });
+
+      // Handle play button click
+      if (playButton) {
+        playButton.addEventListener('click', function(e) {
+          e.stopPropagation(); // Prevent triggering the container click
+          videoPlayer.style.display = 'block';
+          sustainabilityImage.style.display = 'none';
+          playButton.style.display = 'none';
+          
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(error => {
+              console.error('Error playing video:', error);
+              videoPlayer.style.display = 'none';
+              sustainabilityImage.style.display = 'block';
+              playButton.style.display = 'block';
+            }).then(() => {
+              isVideoPlaying = true;
+            });
+          } else {
+            isVideoPlaying = true;
+          }
+        });
+      }
+    }
+
+
+  // Animate counting numbers
     const animateValue = (obj, start, end, duration) => {
       let startTimestamp = null;
       const step = (timestamp) => {
@@ -121,17 +200,24 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const caseSliderEl = document.querySelector('.case-slider');
   if (caseSliderEl) {
-    const dotContainers = caseSliderEl.querySelectorAll('[data-case-pagination]');
-    const slideCount = caseSliderEl.querySelectorAll('.swiper-slide').length;
+    const inlineNavContainers = caseSliderEl.querySelectorAll('[data-case-pagination]');
     const caseShell = caseSliderEl.closest('.case-slider-shell') || caseSliderEl.parentElement;
 
-    dotContainers.forEach((container) => {
+    const createInlineArrow = (direction) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = `case-card-arrow case-card-${direction}`;
+      button.setAttribute('aria-label', direction === 'prev' ? 'Previous case' : 'Next case');
+      const icon = document.createElement('i');
+      icon.className = `bi bi-arrow-${direction === 'prev' ? 'left' : 'right'}`;
+      button.appendChild(icon);
+      return button;
+    };
+
+    inlineNavContainers.forEach((container) => {
       container.innerHTML = '';
-      for (let i = 0; i < slideCount; i += 1) {
-        const dot = document.createElement('span');
-        dot.className = 'case-dot';
-        container.appendChild(dot);
-      }
+      container.appendChild(createInlineArrow('prev'));
+      container.appendChild(createInlineArrow('next'));
     });
 
     const caseSwiper = new Swiper(caseSliderEl, {
@@ -179,29 +265,17 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    const updateCaseDots = (index) => {
-      dotContainers.forEach((container) => {
-        container.querySelectorAll('.case-dot').forEach((dot, dotIndex) => {
-          dot.classList.toggle('is-active', dotIndex === index);
-        });
-      });
-    };
+    inlineNavContainers.forEach((container) => {
+      const prevButton = container.querySelector('.case-card-prev');
+      const nextButton = container.querySelector('.case-card-next');
 
-    updateCaseDots(0);
+      if (prevButton) {
+        prevButton.addEventListener('click', () => caseSwiper.slidePrev());
+      }
 
-    caseSwiper.on('slideChange', () => {
-      updateCaseDots(caseSwiper.realIndex);
-    });
-
-    dotContainers.forEach((container) => {
-      container.addEventListener('click', (event) => {
-        const dot = event.target.closest('.case-dot');
-        if (!dot) {
-          return;
-        }
-        const dotIndex = Array.from(container.children).indexOf(dot);
-        caseSwiper.slideTo(dotIndex);
-      });
+      if (nextButton) {
+        nextButton.addEventListener('click', () => caseSwiper.slideNext());
+      }
     });
   }
 });
