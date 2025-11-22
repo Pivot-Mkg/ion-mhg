@@ -6,6 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+          /* map  */
+    .map-container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hover-box {
+      display: none;
+      position: absolute;
+      background: #063e63;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      pointer-events: none;
+      color: #ffff;
+      font-size: 12px;
+      line-height: 1.4;
+      transform: translateY(-100%);
+    }
+
+    .hover-box.show {
+      display: block;
+    }
+
         .location-marker {
             cursor: pointer;
         }
@@ -33,6 +58,56 @@
         .location-marker:hover .location-tooltip {
             opacity: 1 !important;
         }
+
+        .map-container {
+            position: relative;
+        }
+
+        .map-pin {
+            cursor: pointer;
+        }
+
+        #pin-tooltip {
+            position: fixed;
+            padding: 12px 16px;
+            background: #e8f0ff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 160ms ease, transform 160ms ease;
+            z-index: 5;
+            visibility: hidden;
+        }
+
+        #pin-tooltip[data-show="true"] {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .pin-tooltip__icon {
+            font-size: 18px;
+        }
+
+        .pin-tooltip__title {
+            font-weight: 700;
+            color: #0d1b3f;
+        }
+
+        .pin-tooltip__subtitle {
+            color: #4d5b7c;
+            font-size: 14px;
+        }
+
+        .map-pin path {
+            pointer-events: auto;
+        }
     </style>
 </head>
 
@@ -54,12 +129,14 @@
             <path
                 d="M1181.83 408.382C1175.47 402.025 1165.16 402.025 1158.8 408.382C1152.44 414.738 1152.44 425.051 1158.8 431.408L1170.32 442.924L1181.83 431.408C1188.19 425.051 1188.19 414.738 1181.83 408.382H1181.83ZM1170.31 428.2C1165.66 428.2 1161.9 424.436 1161.9 419.791C1161.9 415.146 1165.66 411.383 1170.31 411.383C1174.96 411.383 1178.72 415.146 1178.72 419.791C1178.72 424.436 1174.96 428.2 1170.31 428.2Z"
                 fill="url(#paint3_linear_10_473)" />
-            <path
-                d="M1459.14 374.144C1463.59 369.699 1463.59 362.493 1459.14 358.048C1454.7 353.603 1447.49 353.603 1443.05 358.048C1438.6 362.493 1438.6 369.699 1443.05 374.144C1447.49 378.589 1454.7 378.589 1459.14 374.144Z"
-                fill="url(#paint4_radial_10_473)" />
-            <path
-                d="M1461.76 355.301C1455.87 349.413 1446.32 349.413 1440.44 355.301C1434.55 361.189 1434.55 370.735 1440.44 376.623L1451.1 387.287L1461.76 376.63C1467.65 370.742 1467.65 361.195 1461.76 355.307L1461.76 355.301ZM1451.09 373.656C1446.79 373.656 1443.31 370.166 1443.31 365.868C1443.31 361.57 1446.8 358.08 1451.09 358.08C1455.39 358.08 1458.88 361.57 1458.88 365.868C1458.88 370.166 1455.39 373.656 1451.09 373.656Z"
-                fill="url(#paint5_linear_10_473)" />
+            <g class="map-pin mumbai" data-city="Mumbai" data-detail="5000+ projects" tabindex="0">
+                <path class="mumbai"
+                    d="M1459.14 374.144C1463.59 369.699 1463.59 362.493 1459.14 358.048C1454.7 353.603 1447.49 353.603 1443.05 358.048C1438.6 362.493 1438.6 369.699 1443.05 374.144C1447.49 378.589 1454.7 378.589 1459.14 374.144Z"
+                    fill="url(#paint4_radial_10_473)" />
+                <path class="mumbai"
+                    d="M1461.76 355.301C1455.87 349.413 1446.32 349.413 1440.44 355.301C1434.55 361.189 1434.55 370.735 1440.44 376.623L1451.1 387.287L1461.76 376.63C1467.65 370.742 1467.65 361.195 1461.76 355.307L1461.76 355.301ZM1451.09 373.656C1446.79 373.656 1443.31 370.166 1443.31 365.868C1443.31 361.57 1446.8 358.08 1451.09 358.08C1455.39 358.08 1458.88 361.57 1458.88 365.868C1458.88 370.166 1455.39 373.656 1451.09 373.656Z"
+                    fill="url(#paint5_linear_10_473)" />
+            </g>
             <path style="mix-blend-mode:multiply"
                 d="M1165.99 118.73C1164.33 123.556 1155.82 125.007 1146.98 121.964C1138.15 118.921 1132.33 112.544 1134 107.711C1135.66 102.884 1144.17 101.434 1153 104.477C1161.84 107.52 1167.65 113.896 1165.99 118.73Z"
                 fill="url(#paint6_radial_10_473)" />
@@ -303,8 +380,171 @@
             <script xmlns="" id="globalVarsDetection"
                 src="chrome-extension://cmkdbmfndkfgebldhnkbfhlneefdaaip/js/wrs_env.js" />
         </svg>
+
+        <div id="pin-tooltip" hidden>
+            <div class="pin-tooltip__icon">📍</div>
+            <div>
+                <div class="pin-tooltip__title"></div>
+                <div class="pin-tooltip__subtitle"></div>
+            </div>
+        </div>
     </div>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Function to create and position hover box
+      function createHoverBox(pathClass, addressHtml) {
+        const pathElement = document.querySelector(pathClass);
+        if (!pathElement) return;
+
+        const hoverBox = document.createElement("div");
+        hoverBox.className = "hover-box";
+        hoverBox.innerHTML = addressHtml;
+
+        // Append hoverbox to the map container
+        const mapContainer = document.querySelector(".map-container");
+        if (mapContainer) {
+          mapContainer.appendChild(hoverBox);
+        }
+
+        // Function to position the hoverbox at the point
+        function positionHoverBox() {
+          const rect = pathElement.getBoundingClientRect();
+          const mapRect = mapContainer.getBoundingClientRect();
+
+          // Calculate position relative to the map container
+          const x = rect.left - mapRect.left;
+          const y = rect.top - mapRect.top;
+
+          hoverBox.style.left = `${x}px`;
+          hoverBox.style.top = `${y}px`;
+        }
+
+        // Show hoverbox on mouseenter
+        pathElement.addEventListener("mouseenter", function () {
+          positionHoverBox();
+          hoverBox.style.display = "block";
+        });
+
+        // Hide hoverbox on mouseleave
+        pathElement.addEventListener("mouseleave", function () {
+          hoverBox.style.display = "none";
+        });
+
+        // Keep hoverbox visible when hovered over
+        hoverBox.addEventListener("mouseenter", function () {
+          hoverBox.style.display = "block";
+        });
+
+        // Hide hoverbox when focus is lost
+        hoverBox.addEventListener("mouseleave", function () {
+          hoverBox.style.display = "none";
+        });
+
+        // Update position on window resize or scroll
+        window.addEventListener("resize", positionHoverBox);
+        mapContainer.addEventListener("scroll", positionHoverBox);
+      }
+
+      // Create hover boxes for each location
+      createHoverBox(
+        ".mumbai",
+        `
+                        <div class="hover-content">
+                        <strong>Mumbai - 511, Building 5, Solitaire Corporate Park, Andheri Ghatkopar Link Road, Chakala, Andheri East, Mumbai 400093<br>
+                        </div>
+                    `
+      );
+      createHoverBox(
+        ".gurugram",
+        `
+                        <div class="hover-content">
+                        <strong>Gurugram -   Unit 502-506, 5th Floor, UNITECH COMMERCIAL TOWER 2, Arya Samaj Road, Block B, Greenwood City, Sector 45,
+          Gurugram, Haryana 122003<br>
+                        </div>
+                    `
+      );
+
+      createHoverBox(
+        ".benglulu",
+        `
+                        <div class="hover-content">
+                        <strong>Bengaluru - Awfis, Residency Square, Richmond Road (Office Space) Bengaluru, Karnataka 560025<br>
+                        </div>
+                    `
+      );
+
+      createHoverBox(
+          ".elululu",
+          `
+                          <div class="hover-content">
+                          <strong>New Jersey (USA) - 111 Town Square Place, Suite #1203,<br> Jersey City, NJ 07310<br>
+                          </div>
+                      `
+        );
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tooltip = document.getElementById('pin-tooltip');
+      if (!tooltip) return;
+
+      tooltip.hidden = false;
+      tooltip.dataset.show = 'false';
+
+      const iconEl = tooltip.querySelector('.pin-tooltip__icon');
+      const titleEl = tooltip.querySelector('.pin-tooltip__title');
+      const subtitleEl = tooltip.querySelector('.pin-tooltip__subtitle');
+      if (iconEl) iconEl.textContent = '📍';
+
+      // Remove old hover boxes so only the new tooltip shows
+      document.querySelectorAll('.hover-box').forEach((el) => el.remove());
+
+      const pins = document.querySelectorAll('.map-pin');
+      if (!pins.length || !titleEl || !subtitleEl) return;
+
+      const positionTooltip = (pin) => {
+        const rect = pin.getBoundingClientRect();
+        const ttRect = tooltip.getBoundingClientRect();
+        const top = rect.top - ttRect.height - 12;
+        const left = rect.left + rect.width / 2 - ttRect.width / 2;
+        tooltip.style.top = `${top}px`;
+        tooltip.style.left = `${left}px`;
+      };
+
+      const showTooltip = (pin) => {
+        titleEl.textContent = pin.dataset.city || '';
+        subtitleEl.textContent = pin.dataset.detail || '';
+        positionTooltip(pin);
+        tooltip.dataset.show = 'true';
+      };
+
+      const hideTooltip = () => {
+        tooltip.dataset.show = 'false';
+      };
+
+      pins.forEach((pin) => {
+        pin.addEventListener('mouseenter', () => showTooltip(pin));
+        pin.addEventListener('focus', () => showTooltip(pin));
+        pin.addEventListener('mouseleave', hideTooltip);
+        pin.addEventListener('blur', hideTooltip);
+      });
+
+      window.addEventListener(
+        'scroll',
+        () => {
+          const activePin = document.querySelector('.map-pin:hover, .map-pin:focus');
+          if (activePin) {
+            positionTooltip(activePin);
+          }
+        },
+        { passive: true }
+      );
+
+      window.addEventListener('resize', hideTooltip);
+    });
+  </script>
 </body>
 
 </html>

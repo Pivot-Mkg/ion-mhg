@@ -1,16 +1,18 @@
 window.addEventListener('DOMContentLoaded', () => {
   const navbar = document.querySelector('.navbar');
 
-  const toggleNavState = () => {
-    if (window.scrollY > 30) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-  };
+  if (navbar) {
+    const toggleNavState = () => {
+      if (window.scrollY > 30) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    };
 
-  toggleNavState();
-  window.addEventListener('scroll', toggleNavState);
+    toggleNavState();
+    window.addEventListener('scroll', toggleNavState);
+  }
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -90,6 +92,33 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const industrySliderEl = document.querySelector('.industry-swiper');
+  if (industrySliderEl) {
+    new Swiper(industrySliderEl, {
+      slidesPerView: 1,
+      spaceBetween: 16,
+      loop: true,
+      pagination: {
+        el: '.industry-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.industry-button-next',
+        prevEl: '.industry-button-prev',
+      },
+      breakpoints: {
+        576: {
+          slidesPerView: 2,
+          spaceBetween: 18,
+        },
+        992: {
+          slidesPerView: 3.5,
+          spaceBetween: 22,
+        },
+      },
+    });
+  }
+
   const caseSliderEl = document.querySelector('.case-slider');
   if (caseSliderEl) {
     const dotContainers = caseSliderEl.querySelectorAll('[data-case-pagination]');
@@ -107,13 +136,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const caseSwiper = new Swiper(caseSliderEl, {
       slidesPerView: 1,
-      effect: 'fade',
-      fadeEffect: {
-        crossFade: true
+      effect: 'coverflow',
+      coverflowEffect: {
+        rotate: 0,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: false,
       },
       speed: 600,
+      loop: true,
       autoHeight: true,
       allowTouchMove: true,
+      spaceBetween: 40,
       autoplay: {
         delay: 5000,
         disableOnInteraction: false,
