@@ -367,35 +367,137 @@ h6 {
   font-weight: 700;
 }
 
+.industry-swiper {
+  overflow: visible;
+  padding-bottom: 3.4rem;
+}
+
+.industry-swiper .swiper-slide {
+  height: auto;
+  display: flex;
+}
+
 .industry-card {
   position: relative;
-  height: 200px;
-  border-radius: 16px;
-  background-size: cover;
-  background-position: center;
+  height: 320px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  width: 100%;
+  background: #dce6f5;
+  box-shadow: 0 18px 38px rgba(9, 46, 96, 0.15);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.industry-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .industry-card::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(5, 24, 68, 0.78) 100%);
-}
-
-.overlay-text {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1rem;
-  color: #fff;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 42%, rgba(3, 39, 86, 0.65) 100%);
   z-index: 1;
+  transition: opacity 0.3s ease;
 }
 
-.overlay-text h6 {
+.industry-info {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 14px;
+  padding: 1rem 1rem 0.85rem 1.05rem;
+  background: #1d5d94;
+  color: #ffffff;
+  border-radius: 12px 12px 14px 14px;
+  clip-path: polygon(0 0, 78% 0, 86% 22%, 100% 22%, 100% 100%, 0 100%);
+  box-shadow: 0 12px 26px rgba(3, 30, 72, 0.28);
+  z-index: 2;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@supports (clip-path: path("M0 0H100V100H0Z")) {
+  .industry-info {
+    clip-path: path("M0 0 H76% C82% 0 84% 10% 88% 16% L100% 16% L100% 100% L0 100% Z");
+  }
+}
+
+.industry-info h5 {
+  margin: 0;
   font-weight: 700;
+  transition: transform 0.3s ease;
+}
+
+.industry-info p {
+  margin: 0.35rem 0 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  opacity: 0;
+  max-height: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease;
+}
+
+.industry-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 50px rgba(9, 46, 96, 0.2);
+}
+
+.industry-card:hover::after {
+  opacity: 0.95;
+}
+
+.industry-card:hover .industry-info {
+  box-shadow: 0 16px 30px rgba(3, 30, 72, 0.35);
+}
+
+.industry-card:hover .industry-info h5 {
+  transform: translateY(-6px);
+}
+
+.industry-card:hover .industry-info p {
+  opacity: 1;
+  max-height: 160px;
+  width: 100%;
+  transform: translateY(0);
+}
+
+.industry-swiper .industry-button-next,
+.industry-swiper .industry-button-prev {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 10px 20px rgba(9, 46, 96, 0.12);
+  color: var(--primary);
+}
+
+.industry-swiper .industry-button-next::after,
+.industry-swiper .industry-button-prev::after {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.industry-swiper .industry-pagination {
+  position: relative;
+  margin-top: 1.4rem;
+  bottom: auto;
+}
+
+.industry-swiper .industry-pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: rgba(0, 38, 114, 0.25);
+  opacity: 1;
+}
+
+.industry-swiper .industry-pagination .swiper-pagination-bullet-active {
+  background: var(--primary);
 }
 
 .timeline {
@@ -959,5 +1061,15 @@ footer .link-secondary:hover {
 
   .case-heading-block h3 {
     font-size: 1.9rem;
+  }
+
+  .industry-card {
+    height: 260px;
+  }
+
+  .industry-info {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
   }
 }
