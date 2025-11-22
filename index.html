@@ -224,6 +224,9 @@
           <div>
             <div class="story-panel round">
               <h2 class="section-title text-white text-center py-3">Proven Track Record</h2>
+              <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+                <a href="#footer" class="btn btn-outline-light fw-semibold px-4 m-auto">Discover Our Journey</a>
+              </div>
               <div class="story-overlay">
                 <div>
                   <div class="stat">60+</div>
@@ -672,14 +675,14 @@
 
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const sustainabilityImage = document.getElementById('sustainabilityImage');
       const videoPlayer = document.getElementById('videoPlayer');
       const video = document.getElementById('sustainabilityVideo');
 
       if (sustainabilityImage) {
         sustainabilityImage.style.cursor = 'pointer';
-        sustainabilityImage.addEventListener('click', function() {
+        sustainabilityImage.addEventListener('click', function () {
           this.style.display = 'none';
           videoPlayer.style.display = 'block';
           video.play();
