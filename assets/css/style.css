@@ -64,9 +64,11 @@ h6 {
 }
 
 .navbar {
-  background: linear-gradient(90deg,
-      rgba(12, 51, 101, 0.94),
-      rgba(7, 35, 78, 0.94));
+  background: linear-gradient(
+    90deg,
+    rgba(12, 51, 101, 0.94),
+    rgba(7, 35, 78, 0.94)
+  );
   backdrop-filter: blur(14px);
   transition: all 0.3s ease;
   z-index: 1001;
@@ -389,9 +391,11 @@ h6 {
   width: 80%;
   max-width: 1000px;
   border-radius: 7px;
-  background: linear-gradient(180deg,
-      rgba(4, 31, 71, 0.92) 0%,
-      rgba(14, 68, 122, 0.92) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(4, 31, 71, 0.92) 0%,
+    rgba(14, 68, 122, 0.92) 100%
+  );
   padding: 1.5rem;
   margin-bottom: -50px;
   z-index: 9;
@@ -413,7 +417,7 @@ h6 {
   text-align: center;
 }
 
-.story-overlay>div {
+.story-overlay > div {
   position: relative;
   padding: 0 1.5rem;
   display: flex;
@@ -421,7 +425,7 @@ h6 {
   align-items: center;
 }
 
-.story-overlay>div:not(:last-child)::after {
+.story-overlay > div:not(:last-child)::after {
   content: "";
   position: absolute;
   right: -0.75rem;
@@ -470,9 +474,11 @@ h6 {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg,
-      rgba(0, 0, 0, 0) 42%,
-      rgba(3, 39, 86, 0.65) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 42%,
+    rgba(3, 39, 86, 0.65) 100%
+  );
   z-index: 1;
   transition: opacity 0.3s ease;
 }
@@ -494,8 +500,9 @@ h6 {
 
 @supports (clip-path: path("M0 0H100V100H0Z")) {
   .industry-info {
-    clip-path: path("M0 0 H76% C82% 0 84% 10% 88% 16% L100% 16% L100% 100% L0 100% Z"
-      );
+    clip-path: path(
+      "M0 0 H76% C82% 0 84% 10% 88% 16% L100% 16% L100% 100% L0 100% Z"
+    );
   }
 }
 
@@ -1055,7 +1062,6 @@ footer .link-secondary:hover {
   border: 0;
 }
 
-
 .object-fit-cover {
   object-fit: cover;
 }
@@ -1157,3 +1163,57 @@ footer .link-secondary:hover {
     bottom: 10px;
   }
 }
+/* map starts here */
+.map-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  overflow: hidden;
+}
+
+.map-container svg {
+  /* width: 100%; */
+  /* height: auto; */
+  /* max-width: 100%; */
+  /* display: block; */
+  /* margin: 0 auto; */
+}
+
+.hover-box {
+  display: none;
+  position: absolute;
+  border-radius: 8px;
+  background: #dbeafe;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  pointer-events: none;
+  color: #ffff;
+  font-size: 12px;
+  line-height: 1.4;
+  transform: translateY(-100%);
+}
+
+.hover-box.show {
+  display: block;
+}
+
+.map-heading {
+  color: #0a0a0a;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+  /* 142.857% */
+}
+
+.map-content {
+  color: #4b5563;
+
+  font-size: 11.8px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  /* 135.593% */
+}
+/* map ends here  */

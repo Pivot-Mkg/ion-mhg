@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Milestones Roadmap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f4f6f8; /* Light grey background from image */
+        overflow-x: hidden; /* Prevent body horizontal scroll, handle in container */
+      }
+
+      /* Hide Scrollbar but keep functionality */
+      .roadmap-container::-webkit-scrollbar {
+        height: 8px;
+      }
+      .roadmap-container::-webkit-scrollbar-track {
+        background: #e0e0e0;
+        border-radius: 4px;
+      }
+      .roadmap-container::-webkit-scrollbar-thumb {
+        background: #002060;
+        border-radius: 4px;
+      }
+
+      /* Chevron/Arrow Shape for Years */
+      .year-chevron {
+        position: relative;
+        background-color: #002060; /* Dark Navy */
+        color: white;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-left: 20px;
+        padding-right: 10px;
+        font-weight: 700;
+        font-size: 1.5rem;
+        /* Create the arrow shape */
+        clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
+        width: 180px;
+        z-index: 10;
+      }
+
+      /* The horizontal connecting line */
+      .timeline-line {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%; /* Extends dynamically */
+        height: 2px;
+        background-color: #002060;
+        z-index: 1;
+        transform: translateY(-50%);
+      }
+
+      /* Vertical Connector Line Logic */
+      .connector-line {
+        position: absolute;
+        width: 2px;
+        background-color: #0056b3; /* Lighter blue */
+        /* Changed from left: 20px to align with border */
+        left: -2px;
+        display: none;
+      }
+
+      .connector-dot {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background-color: #0056b3;
+        border-radius: 50%;
+        /* Adjusted centering */
+        left: -5px;
+        z-index: 2;
+      }
+
+      /* Top Position Specifics */
+      /* Adjusted to 50px to reach exactly the center of the 60px container (30px center) from 80px offset */
+      .item-top .connector-line {
+        bottom: -50px; /* Reach down to the timeline center */
+        height: 50px;
+      }
+      .item-top .connector-dot.top {
+        top: 0;
+      }
+      .item-top .connector-dot.bottom {
+        bottom: 0;
+        background-color: #002060; /* Anchor to timeline line */
+      }
+
+      /* Bottom Position Specifics */
+      /* Adjusted to 50px to reach exactly the center of the 60px container (30px center) from 80px offset */
+      .item-bottom .connector-line {
+        top: -50px; /* Reach up to the timeline center */
+        height: 50px;
+      }
+      .item-bottom .connector-dot.top {
+        top: 0;
+        background-color: #002060; /* Anchor to timeline line */
+      }
+      .item-bottom .connector-dot.bottom {
+        bottom: 0;
+      }
+
+      /* Ensure content blocks sit behind the chevron so the line 'merges' into it */
+      .item-top,
+      .item-bottom {
+        z-index: 5;
+      }
+
+      /* Custom Text Styles to match image */
+      .milestone-title {
+        color: #0056b3; /* Blue title */
+        font-weight: 600;
+        font-size: 1.125rem;
+        line-height: 1.4;
+        margin-bottom: 8px;
+      }
+
+      .milestone-desc {
+        color: #666; /* Grey body */
+        font-size: 0.875rem;
+        line-height: 1.5;
+        max-width: 220px;
+      }
+
+      .grid-bg {
+        background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+        background-size: 24px 24px;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col items-center justify-center grid-bg">
+    <div class="w-full max-w-[1400px] p-8 relative">
+      <!-- Main Header -->
+      <h1
+        class="text-[#002060] text-4xl font-bold mb-8 pl-4 sticky left-0 z-20"
+      >
+        Milestones
+      </h1>
+
+      <!-- Scroll Container -->
+      <!-- Increased padding from py-20 to py-40 to prevent upper/lower text clipping -->
+      <div
+        id="scrollContainer"
+        class="roadmap-container overflow-x-auto overflow-y-hidden relative py-40 px-4 cursor-grab active:cursor-grabbing select-none"
+      >
+        <!-- Inner Track Width stretches with content -->
+        <div class="flex items-center relative min-w-max gap-0">
+          <!-- Continuous Horizontal Line -->
+          <div class="timeline-line"></div>
+
+          <!-- 1964: TOP -->
+          <div class="relative flex flex-col items-start w-[280px] group">
+            <!-- Content Block (Top) -->
+            <div
+              class="item-top absolute bottom-[80px] left-0 pl-5 border-l-[3px] border-[#0056b3]"
+            >
+              <!-- Decorative Dot Top -->
+              <div
+                class="absolute -top-1 -left-[5px] w-2 h-2 rounded-full bg-[#0056b3]"
+              ></div>
+              <!-- Decorative Dot Bottom (Connector) -->
+              <!-- <div class="absolute -bottom-[54px] -left-[5px] w-2 h-2 rounded-full bg-[#0056b3] z-20"></div> -->
+              <!-- Vertical Line Extension to Timeline -->
+              <div class="connector-line bg-[#0056b3]"></div>
+
+              <h3 class="milestone-title">Incorporation</h3>
+              <p class="milestone-desc">
+                Incorporated as a 60% subsidiary of Permutit Co. Ltd., UK.
+              </p>
+            </div>
+
+            <!-- Year Chevron -->
+            <div
+              class="year-chevron shadow-lg transition-transform duration-300 group-hover:scale-105"
+            >
+              1964
+            </div>
+          </div>
+
+          <!-- Spacer Line Segment -->
+          <div class="w-[100px] h-[2px]"></div>
+
+          <!-- 1965: BOTTOM -->
+          <div class="relative flex flex-col items-start w-[280px] group">
+            <!-- Year Chevron -->
+            <div
+              class="year-chevron shadow-lg transition-transform duration-300 group-hover:scale-105"
+            >
+              1965
+            </div>
+
+            <!-- Content Block (Bottom) -->
+            <div
+              class="item-bottom absolute top-[80px] left-0 pl-5 border-l-[3px] border-[#0056b3]"
+            >
+              <!-- Vertical Line Extension from Timeline -->
+              <!-- <div class="connector-line bg-[#0056b3]"></div> -->
+              <!-- Decorative Dot Top (Connector) -->
+              <!-- <div class="absolute -top-[54px] -left-[5px] w-2 h-2 rounded-full bg-[#0056b3] z-20"></div> -->
+              <!-- Decorative Dot Bottom -->
+              <div
+                class="absolute -bottom-1 -left-[5px] w-2 h-2 rounded-full bg-[#0056b3]"
+              ></div>
+
+              <h3 class="milestone-title">Resin Launch</h3>
+              <p class="milestone-desc">
+                Pioneered production of world-class ion-exchange resins in India
+                and began design & manufacture of water-treatment plants.
+              </p>
+            </div>
+          </div>
+
+          <!-- Spacer -->
+          <div class="w-[100px] h-[2px]"></div>
+
+          <!-- 1977: TOP -->
+          <div class="relative flex flex-col items-start w-[280px] group">
+            <div
+              class="item-top absolute bottom-[80px] left-0 pl-5 border-l-[3px] border-[#0056b3]"
+            >
+              <div
+                class="absolute -top-1 -left-[5px] w-2 h-2 rounded-full bg-[#0056b3]"
+              ></div>
+              <div
+                class="absolute -bottom-[54px] -left-[5px] w-2 h-2 rounded-full bg-[#0056b3] z-20"
+              ></div>
+              <div class="connector-line bg-[#0056b3]"></div>
+
+              <h3 class="milestone-title">BSE Listing</h3>
+              <p class="milestone-desc">
+                Listed on the Bombay Stock Exchange (BSE)
+              </p>
+            </div>
+            <div
+              class="year-chevron shadow-lg transition-transform duration-300 group-hover:scale-105"
+            >
+              1977
+            </div>
+          </div>
+
+          <!-- Spacer -->
+          <div class="w-[100px] h-[2px]"></div>
+
+          <!-- 1978: BOTTOM -->
+          <div class="relative flex flex-col items-start w-[280px] group">
+            <div
+              class="year-chevron shadow-lg transition-transform duration-300 group-hover:scale-105"
+            >
+              1978
+            </div>
+            <div
+              class="item-bottom absolute top-[80px] left-0 pl-5 border-l-[3px] border-[#0056b3]"
+            >
+              <div class="connector-line bg-[#0056b3]"></div>
+              <div
+                class="absolute -top-[54px] -left-[5px] w-2 h-2 rounded-full bg-[#0056b3] z-20"
+              ></div>
+              <div
+                class="absolute -bottom-1 -left-[5px] w-2 h-2 rounded-full bg-[#0056b3]"
+              ></div>
+
+              <h3 class="milestone-title">RO Pioneer</h3>
+              <p class="milestone-desc">
+                First Indian company to introduce the Reverse Osmosis (RO)
+                concept.
+              </p>
+            </div>
+          </div>
+
+          <!-- Spacer -->
+          <div class="w-[100px] h-[2px]"></div>
+
+          <!-- 1979: TOP -->
+          <div class="relative flex flex-col items-start w-[280px] group">
+            <div
+              class="item-top absolute bottom-[80px] left-0 pl-5 border-l-[3px] border-[#0056b3]"
+            >
+              <div
+                class="absolute -top-1 -left-[5px] w-2 h-2 rounded-full bg-[#0056b3]"
+              ></div>
+              <div
+                class="absolute -bottom-[54px] -left-[5px] w-2 h-2 rounded-full bg-[#0056b3] z-20"
+              ></div>
+              <div class="connector-line bg-[#0056b3]"></div>
+
+              <h3 class="milestone-title">Ankleshwar Plant</h3>
+              <p class="milestone-desc">
+                Inauguration of the ion-exchange resins manufacturing unit at
+                Ankleshwar, India.
+              </p>
+            </div>
+            <div
+              class="year-chevron shadow-lg transition-transform duration-300 group-hover:scale-105"
+            >
+              1979
+            </div>
+          </div>
+
+          <!-- FUTURE ITEM (Example of extensibility) -->
+          <!-- <div class="w-[100px] h-[2px] opacity-50"></div>
+                <div class="relative flex flex-col items-start w-[280px] opacity-50 group hover:opacity-100 transition-opacity">
+                    <div class="year-chevron bg-gray-400">
+                        2025
+                    </div>
+                    <div class="item-bottom absolute top-[80px] left-0 pl-5 border-l-[3px] border-gray-400">
+                        <div class="connector-line bg-gray-400"></div>
+                        <h3 class="milestone-title text-gray-500">Future Expansion</h3>
+                        <p class="milestone-desc">
+                            The roadmap continues infinitely to the right...
+                        </p>
+                    </div>
+                </div> -->
+
+          <!-- End padding -->
+          <div class="w-[100px]"></div>
+        </div>
+      </div>
+
+      <!-- Navigation Hint -->
+      <div
+        class="flex justify-center mt-8 text-[#002060] opacity-60 animate-pulse"
+      >
+        <i class="fas fa-chevron-left mr-2"></i>
+        <span class="text-sm font-medium">Scroll or Drag to Explore</span>
+        <i class="fas fa-chevron-right ml-2"></i>
+      </div>
+
+      <div class="h-[100vh]"></div>
+    </div>
+
+    <script>
+      const scrollContainer = document.getElementById("scrollContainer");
+
+      // 1. Horizontal Scroll on Mouse Wheel
+      scrollContainer.addEventListener("wheel", (evt) => {
+        evt.preventDefault();
+        scrollContainer.scrollLeft += evt.deltaY;
+      });
+
+      // 2. Drag to Scroll Implementation
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      scrollContainer.addEventListener("mousedown", (e) => {
+        isDown = true;
+        scrollContainer.classList.add("cursor-grabbing");
+        scrollContainer.classList.remove("cursor-grab");
+        startX = e.pageX - scrollContainer.offsetLeft;
+        scrollLeft = scrollContainer.scrollLeft;
+      });
+
+      scrollContainer.addEventListener("mouseleave", () => {
+        isDown = false;
+        scrollContainer.classList.remove("cursor-grabbing");
+        scrollContainer.classList.add("cursor-grab");
+      });
+
+      scrollContainer.addEventListener("mouseup", () => {
+        isDown = false;
+        scrollContainer.classList.remove("cursor-grabbing");
+        scrollContainer.classList.add("cursor-grab");
+      });
+
+      scrollContainer.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - scrollContainer.offsetLeft;
+        const walk = (x - startX) * 1.5; // Scroll-fast multiplier
+        scrollContainer.scrollLeft = scrollLeft - walk;
+      });
+    </script>
+  </body>
+</html>
