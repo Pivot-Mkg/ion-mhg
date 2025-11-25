@@ -1217,3 +1217,294 @@ footer .link-secondary:hover {
   /* 135.593% */
 }
 /* map ends here  */
+
+/* roadmap starts here */
+
+/* --- Utilities --- */
+.cursor-grab {
+  cursor: grab;
+}
+.cursor-grabbing {
+  cursor: grabbing;
+}
+
+/* --- Background Pattern --- */
+.grid-bg {
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* --- Layout Containers --- */
+.main-wrapper {
+  width: 100%;
+  max-width: 1400px;
+  /* padding: 2rem; */
+  position: relative;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-left: 1rem;
+  position: sticky;
+  left: 0;
+  z-index: 20;
+  max-width: 56rem; /* approx max-w-4xl */
+}
+
+.page-title {
+  color: #002060;
+  font-size: 2.25rem; /* 4xl */
+  font-weight: 700;
+  margin: 0;
+}
+
+/* --- Scroll Container --- */
+.roadmap-scroll-area {
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  padding: 10rem 1rem; /* py-40 px-4 */
+  user-select: none;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar Styling */
+.roadmap-scroll-area::-webkit-scrollbar {
+  height: 8px;
+}
+.roadmap-scroll-area::-webkit-scrollbar-track {
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+.roadmap-scroll-area::-webkit-scrollbar-thumb {
+  background: #0056b3;
+  border-radius: 4px;
+}
+
+.timeline-track {
+  display: flex;
+  align-items: center;
+  position: relative;
+  min-width: max-content;
+  gap: 0;
+}
+
+/* --- Timeline Elements --- */
+.timeline-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #002060;
+  z-index: 1;
+  transform: translateY(-50%);
+}
+
+.spacer-segment {
+  width: 100px;
+  height: 2px;
+}
+
+/* --- Milestone Item Wrapper --- */
+.milestone-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 280px;
+  z-index: 10; /* FIX: Added z-index to lift card above the timeline line */
+  /* Animation Base State */
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.milestone-card.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* --- Year Chevron --- */
+.year-badge {
+  position: relative;
+  background-color: #002672;
+  color: white;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20px;
+  padding-right: 10px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
+  width: 180px;
+  z-index: 10;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+}
+
+/* --- Content Blocks --- */
+.content-block-top,
+.content-block-bottom {
+  position: absolute;
+  left: 0;
+  padding-left: 1.25rem; /* pl-5 */
+  border-left: 3px solid #0056b3;
+  z-index: 5;
+  transition: transform 0.4s ease-out, border-color 0.3s ease;
+}
+
+.content-block-top {
+  bottom: 80px;
+}
+
+.content-block-bottom {
+  top: 80px;
+}
+
+.milestone-title {
+  color: #0056b3;
+  font-weight: 600;
+  font-size: 1.125rem;
+  line-height: 1.4;
+  margin: 0 0 8px 0;
+  transition: color 0.3s ease;
+}
+
+.milestone-desc {
+  color: #666;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  max-width: 220px;
+  margin: 0;
+}
+
+/* --- Connectors --- */
+.vertical-line {
+  position: absolute;
+  display: none;
+  width: 2px;
+  background-color: #0056b3;
+  left: -2px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #0056b3;
+  border-radius: 50%;
+  left: -5px;
+  z-index: 2;
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Positioning logic */
+.content-block-top .vertical-line {
+  bottom: -50px;
+  height: 50px;
+}
+.content-block-bottom .vertical-line {
+  top: -50px;
+  height: 50px;
+}
+
+.dot-top-start {
+  top: -4px;
+}
+.dot-top-end-anchor {
+  bottom: -54px;
+  z-index: 20;
+  background-color: #002060;
+  display: none;
+}
+
+.dot-bottom-start-anchor {
+  top: -54px;
+  z-index: 20;
+  background-color: #002060;
+  display: none;
+}
+.dot-bottom-end {
+  bottom: -4px;
+}
+
+/* --- Interactions & Hover Effects --- */
+
+/* Year Chevron Hover */
+.milestone-card:hover .year-badge {
+  transform: scale(1.1) rotate(-1deg);
+  background-color: #00308f;
+  box-shadow: 0 10px 30px -5px rgba(0, 32, 96, 0.4);
+  z-index: 20;
+}
+
+/* Connector Glow */
+.milestone-card:hover .vertical-line {
+  background-color: #2563eb;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.5);
+  width: 3px;
+}
+.milestone-card:hover .content-block-top,
+.milestone-card:hover .content-block-bottom {
+  border-left-color: #2563eb;
+}
+
+/* Dot Pop */
+.milestone-card:hover .dot {
+  background-color: #2563eb;
+  transform: scale(1.4);
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.6);
+}
+/* Anchor dots glow too */
+.milestone-card:hover .dot-top-end-anchor,
+.milestone-card:hover .dot-bottom-start-anchor {
+  background-color: #2563eb;
+}
+
+.milestone-card:hover .milestone-title {
+  color: #2563eb;
+}
+
+/* Text Block Float */
+.milestone-card:hover .content-block-top {
+  transform: translateY(-8px);
+}
+.milestone-card:hover .content-block-bottom {
+  transform: translateY(8px);
+}
+
+/* Navigation Hint */
+.nav-hint {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  color: #0a2e779e;
+  opacity: 0.6;
+  animation: pulse 2s infinite;
+  align-items: center;
+  gap: 0.5rem;
+}
+.nav-hint-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+/* roadmap ends here */

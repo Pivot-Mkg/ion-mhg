@@ -1,385 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Milestones Roadmap</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
-      body {
-        font-family: "Inter", sans-serif;
-        background-color: #f4f6f8; /* Light grey background from image */
-        overflow-x: hidden; /* Prevent body horizontal scroll, handle in container */
-      }
+        /* --- Base & Reset --- */
+        * {
+            box-sizing: border-box;
+        }
 
-      /* Hide Scrollbar but keep functionality */
-      .roadmap-container::-webkit-scrollbar {
-        height: 8px;
-      }
-      .roadmap-container::-webkit-scrollbar-track {
-        background: #e0e0e0;
-        border-radius: 4px;
-      }
-      .roadmap-container::-webkit-scrollbar-thumb {
-        background: #002060;
-        border-radius: 4px;
-      }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F4F6F8;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
 
-      /* Chevron/Arrow Shape for Years */
-      .year-chevron {
-        position: relative;
-        background-color: #002060; /* Dark Navy */
-        color: white;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-left: 20px;
-        padding-right: 10px;
-        font-weight: 700;
-        font-size: 1.5rem;
-        /* Create the arrow shape */
-        clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
-        width: 180px;
-        z-index: 10;
-      }
+        /* --- Utilities --- */
+        .cursor-grab { cursor: grab; }
+        .cursor-grabbing { cursor: grabbing; }
 
-      /* The horizontal connecting line */
-      .timeline-line {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%; /* Extends dynamically */
-        height: 2px;
-        background-color: #002060;
-        z-index: 1;
-        transform: translateY(-50%);
-      }
+        /* --- Background Pattern --- */
+        .grid-bg {
+             background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+             background-size: 24px 24px;
+        }
 
-      /* Vertical Connector Line Logic */
-      .connector-line {
-        position: absolute;
-        width: 2px;
-        background-color: #0056b3; /* Lighter blue */
-        /* Changed from left: 20px to align with border */
-        left: -2px;
-        display: none;
-      }
+        /* --- Layout Containers --- */
+        .main-wrapper {
+            width: 100%;
+            max-width: 1400px;
+            padding: 2rem;
+            position: relative;
+        }
 
-      .connector-dot {
-        position: absolute;
-        width: 8px;
-        height: 8px;
-        background-color: #0056b3;
-        border-radius: 50%;
-        /* Adjusted centering */
-        left: -5px;
-        z-index: 2;
-      }
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            position: sticky;
+            left: 0;
+            z-index: 20;
+            max-width: 56rem; /* approx max-w-4xl */
+        }
 
-      /* Top Position Specifics */
-      /* Adjusted to 50px to reach exactly the center of the 60px container (30px center) from 80px offset */
-      .item-top .connector-line {
-        bottom: -50px; /* Reach down to the timeline center */
-        height: 50px;
-      }
-      .item-top .connector-dot.top {
-        top: 0;
-      }
-      .item-top .connector-dot.bottom {
-        bottom: 0;
-        background-color: #002060; /* Anchor to timeline line */
-      }
+        .page-title {
+            color: #002060;
+            font-size: 2.25rem; /* 4xl */
+            font-weight: 700;
+            margin: 0;
+        }
 
-      /* Bottom Position Specifics */
-      /* Adjusted to 50px to reach exactly the center of the 60px container (30px center) from 80px offset */
-      .item-bottom .connector-line {
-        top: -50px; /* Reach up to the timeline center */
-        height: 50px;
-      }
-      .item-bottom .connector-dot.top {
-        top: 0;
-        background-color: #002060; /* Anchor to timeline line */
-      }
-      .item-bottom .connector-dot.bottom {
-        bottom: 0;
-      }
+        /* --- Scroll Container --- */
+        .roadmap-scroll-area {
+            overflow-x: auto;
+            overflow-y: hidden;
+            position: relative;
+            padding: 10rem 1rem; /* py-40 px-4 */
+            user-select: none;
+            scroll-behavior: smooth;
+        }
 
-      /* Ensure content blocks sit behind the chevron so the line 'merges' into it */
-      .item-top,
-      .item-bottom {
-        z-index: 5;
-      }
+        /* Scrollbar Styling */
+        .roadmap-scroll-area::-webkit-scrollbar {
+            height: 8px;
+        }
+        .roadmap-scroll-area::-webkit-scrollbar-track {
+            background: #e0e0e0;
+            border-radius: 4px;
+        }
+        .roadmap-scroll-area::-webkit-scrollbar-thumb {
+            background: #002060;
+            border-radius: 4px;
+        }
 
-      /* Custom Text Styles to match image */
-      .milestone-title {
-        color: #0056b3; /* Blue title */
-        font-weight: 600;
-        font-size: 1.125rem;
-        line-height: 1.4;
-        margin-bottom: 8px;
-      }
+        .timeline-track {
+            display: flex;
+            align-items: center;
+            position: relative;
+            min-width: max-content;
+            gap: 0;
+        }
 
-      .milestone-desc {
-        color: #666; /* Grey body */
-        font-size: 0.875rem;
-        line-height: 1.5;
-        max-width: 220px;
-      }
+        /* --- Timeline Elements --- */
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #002060;
+            z-index: 1;
+            transform: translateY(-50%);
+        }
 
-      .grid-bg {
-        background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-        background-size: 24px 24px;
-      }
+        .spacer-segment {
+            width: 100px;
+            height: 2px;
+        }
+
+        /* --- Milestone Item Wrapper --- */
+        .milestone-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 280px;
+            z-index: 10; /* FIX: Added z-index to lift card above the timeline line */
+            /* Animation Base State */
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .milestone-card.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* --- Year Chevron --- */
+        .year-badge {
+            position: relative;
+            background-color: #002060;
+            color: white;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 20px;
+            padding-right: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
+            width: 180px;
+            z-index: 10;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+        }
+        
+        /* --- Content Blocks --- */
+        .content-block-top, .content-block-bottom {
+            position: absolute;
+            left: 0;
+            padding-left: 1.25rem; /* pl-5 */
+            border-left: 3px solid #0056b3;
+            z-index: 5;
+            transition: transform 0.4s ease-out, border-color 0.3s ease;
+        }
+
+        .content-block-top {
+            bottom: 80px;
+        }
+
+        .content-block-bottom {
+            top: 80px;
+        }
+
+        .milestone-title {
+            color: #0056b3;
+            font-weight: 600;
+            font-size: 1.125rem;
+            line-height: 1.4;
+            margin: 0 0 8px 0;
+            transition: color 0.3s ease;
+        }
+        
+        .milestone-desc {
+            color: #666;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            max-width: 220px;
+            margin: 0;
+        }
+
+        /* --- Connectors --- */
+        .vertical-line {
+            position: absolute;
+            width: 2px;
+            background-color: #0056b3;
+            left: -2px; 
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #0056b3;
+            border-radius: 50%;
+            left: -5px; 
+            z-index: 2;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Positioning logic */
+        .content-block-top .vertical-line { bottom: -50px; height: 50px; }
+        .content-block-bottom .vertical-line { top: -50px; height: 50px; }
+        
+        .dot-top-start { top: -4px; }
+        .dot-top-end-anchor { bottom: -54px; z-index: 20; background-color: #002060; }
+        
+        .dot-bottom-start-anchor { top: -54px; z-index: 20; background-color: #002060; }
+        .dot-bottom-end { bottom: -4px; }
+
+        /* --- Interactions & Hover Effects --- */
+        
+        /* Year Chevron Hover */
+        .milestone-card:hover .year-badge {
+            transform: scale(1.1) rotate(-1deg);
+            background-color: #00308F;
+            box-shadow: 0 10px 30px -5px rgba(0, 32, 96, 0.4);
+            z-index: 20;
+        }
+
+        /* Connector Glow */
+        .milestone-card:hover .vertical-line {
+            background-color: #2563eb;
+            box-shadow: 0 0 8px rgba(37, 99, 235, 0.5);
+            width: 3px;
+        }
+        .milestone-card:hover .content-block-top,
+        .milestone-card:hover .content-block-bottom {
+            border-left-color: #2563eb;
+        }
+
+        /* Dot Pop */
+        .milestone-card:hover .dot {
+            background-color: #2563eb;
+            transform: scale(1.4);
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.6);
+        }
+        /* Anchor dots glow too */
+        .milestone-card:hover .dot-top-end-anchor,
+        .milestone-card:hover .dot-bottom-start-anchor {
+            background-color: #2563eb;
+        }
+
+        .milestone-card:hover .milestone-title {
+            color: #2563eb;
+        }
+
+        /* Text Block Float */
+        .milestone-card:hover .content-block-top { transform: translateY(-8px); }
+        .milestone-card:hover .content-block-bottom { transform: translateY(8px); }
+
+        /* Navigation Hint */
+        .nav-hint {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            color: #002060;
+            opacity: 0.6;
+            animation: pulse 2s infinite;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-hint-text {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        
     </style>
-  </head>
-  <body class="min-h-screen flex flex-col items-center justify-center grid-bg">
-    <div class="w-full max-w-[1400px] p-8 relative">
-      <!-- Main Header -->
-      <h1
-        class="text-[#002060] text-4xl font-bold mb-8 pl-4 sticky left-0 z-20"
-      >
-        Milestones
-      </h1>
+</head>
+<body class="grid-bg">
 
-      <!-- Scroll Container -->
-      <!-- Increased padding from py-20 to py-40 to prevent upper/lower text clipping -->
-      <div
-        id="scrollContainer"
-        class="roadmap-container overflow-x-auto overflow-y-hidden relative py-40 px-4 cursor-grab active:cursor-grabbing select-none"
-      >
-        <!-- Inner Track Width stretches with content -->
-        <div class="flex items-center relative min-w-max gap-0">
-          <!-- Continuous Horizontal Line -->
-          <div class="timeline-line"></div>
-
-          <!-- 1964: TOP -->
-          <div class="relative flex flex-col items-start w-[280px] group">
-            <!-- Content Block (Top) -->
-            <div
-              class="item-top absolute bottom-[80px] left-0 pl-5 border-l-[3px] border-[#0056b3]"
-            >
-              <!-- Decorative Dot Top -->
-              <div
-                class="absolute -top-1 -left-[5px] w-2 h-2 rounded-full bg-[#0056b3]"
-              ></div>
-              <!-- Decorative Dot Bottom (Connector) -->
-              <!-- <div class="absolute -bottom-[54px] -left-[5px] w-2 h-2 rounded-full bg-[#0056b3] z-20"></div> -->
-              <!-- Vertical Line Extension to Timeline -->
-              <div class="connector-line bg-[#0056b3]"></div>
-
-              <h3 class="milestone-title">Incorporation</h3>
-              <p class="milestone-desc">
-                Incorporated as a 60% subsidiary of Permutit Co. Ltd., UK.
-              </p>
-            </div>
-
-            <!-- Year Chevron -->
-            <div
-              class="year-chevron shadow-lg transition-transform duration-300 group-hover:scale-105"
-            >
-              1964
-            </div>
-          </div>
-
-          <!-- Spacer Line Segment -->
-          <div class="w-[100px] h-[2px]"></div>
-
-          <!-- 1965: BOTTOM -->
-          <div class="relative flex flex-col items-start w-[280px] group">
-            <!-- Year Chevron -->
-            <div
-              class="year-chevron shadow-lg transition-transform duration-300 group-hover:scale-105"
-            >
-              1965
-            </div>
-
-            <!-- Content Block (Bottom) -->
-            <div
-              class="item-bottom absolute top-[80px] left-0 pl-5 border-l-[3px] border-[#0056b3]"
-            >
-              <!-- Vertical Line Extension from Timeline -->
-              <!-- <div class="connector-line bg-[#0056b3]"></div> -->
-              <!-- Decorative Dot Top (Connector) -->
-              <!-- <div class="absolute -top-[54px] -left-[5px] w-2 h-2 rounded-full bg-[#0056b3] z-20"></div> -->
-              <!-- Decorative Dot Bottom -->
-              <div
-                class="absolute -bottom-1 -left-[5px] w-2 h-2 rounded-full bg-[#0056b3]"
-              ></div>
-
-              <h3 class="milestone-title">Resin Launch</h3>
-              <p class="milestone-desc">
-                Pioneered production of world-class ion-exchange resins in India
-                and began design & manufacture of water-treatment plants.
-              </p>
-            </div>
-          </div>
-
-          <!-- Spacer -->
-          <div class="w-[100px] h-[2px]"></div>
-
-          <!-- 1977: TOP -->
-          <div class="relative flex flex-col items-start w-[280px] group">
-            <div
-              class="item-top absolute bottom-[80px] left-0 pl-5 border-l-[3px] border-[#0056b3]"
-            >
-              <div
-                class="absolute -top-1 -left-[5px] w-2 h-2 rounded-full bg-[#0056b3]"
-              ></div>
-              <div
-                class="absolute -bottom-[54px] -left-[5px] w-2 h-2 rounded-full bg-[#0056b3] z-20"
-              ></div>
-              <div class="connector-line bg-[#0056b3]"></div>
-
-              <h3 class="milestone-title">BSE Listing</h3>
-              <p class="milestone-desc">
-                Listed on the Bombay Stock Exchange (BSE)
-              </p>
-            </div>
-            <div
-              class="year-chevron shadow-lg transition-transform duration-300 group-hover:scale-105"
-            >
-              1977
-            </div>
-          </div>
-
-          <!-- Spacer -->
-          <div class="w-[100px] h-[2px]"></div>
-
-          <!-- 1978: BOTTOM -->
-          <div class="relative flex flex-col items-start w-[280px] group">
-            <div
-              class="year-chevron shadow-lg transition-transform duration-300 group-hover:scale-105"
-            >
-              1978
-            </div>
-            <div
-              class="item-bottom absolute top-[80px] left-0 pl-5 border-l-[3px] border-[#0056b3]"
-            >
-              <div class="connector-line bg-[#0056b3]"></div>
-              <div
-                class="absolute -top-[54px] -left-[5px] w-2 h-2 rounded-full bg-[#0056b3] z-20"
-              ></div>
-              <div
-                class="absolute -bottom-1 -left-[5px] w-2 h-2 rounded-full bg-[#0056b3]"
-              ></div>
-
-              <h3 class="milestone-title">RO Pioneer</h3>
-              <p class="milestone-desc">
-                First Indian company to introduce the Reverse Osmosis (RO)
-                concept.
-              </p>
-            </div>
-          </div>
-
-          <!-- Spacer -->
-          <div class="w-[100px] h-[2px]"></div>
-
-          <!-- 1979: TOP -->
-          <div class="relative flex flex-col items-start w-[280px] group">
-            <div
-              class="item-top absolute bottom-[80px] left-0 pl-5 border-l-[3px] border-[#0056b3]"
-            >
-              <div
-                class="absolute -top-1 -left-[5px] w-2 h-2 rounded-full bg-[#0056b3]"
-              ></div>
-              <div
-                class="absolute -bottom-[54px] -left-[5px] w-2 h-2 rounded-full bg-[#0056b3] z-20"
-              ></div>
-              <div class="connector-line bg-[#0056b3]"></div>
-
-              <h3 class="milestone-title">Ankleshwar Plant</h3>
-              <p class="milestone-desc">
-                Inauguration of the ion-exchange resins manufacturing unit at
-                Ankleshwar, India.
-              </p>
-            </div>
-            <div
-              class="year-chevron shadow-lg transition-transform duration-300 group-hover:scale-105"
-            >
-              1979
-            </div>
-          </div>
-
-          <!-- FUTURE ITEM (Example of extensibility) -->
-          <!-- <div class="w-[100px] h-[2px] opacity-50"></div>
-                <div class="relative flex flex-col items-start w-[280px] opacity-50 group hover:opacity-100 transition-opacity">
-                    <div class="year-chevron bg-gray-400">
-                        2025
-                    </div>
-                    <div class="item-bottom absolute top-[80px] left-0 pl-5 border-l-[3px] border-gray-400">
-                        <div class="connector-line bg-gray-400"></div>
-                        <h3 class="milestone-title text-gray-500">Future Expansion</h3>
-                        <p class="milestone-desc">
-                            The roadmap continues infinitely to the right...
-                        </p>
-                    </div>
-                </div> -->
-
-          <!-- End padding -->
-          <div class="w-[100px]"></div>
+    <div class="main-wrapper">
+        
+        <!-- Main Header -->
+        <div class="header-container">
+            <h1 class="page-title">Milestones</h1>
         </div>
-      </div>
 
-      <!-- Navigation Hint -->
-      <div
-        class="flex justify-center mt-8 text-[#002060] opacity-60 animate-pulse"
-      >
-        <i class="fas fa-chevron-left mr-2"></i>
-        <span class="text-sm font-medium">Scroll or Drag to Explore</span>
-        <i class="fas fa-chevron-right ml-2"></i>
-      </div>
+        <!-- Scroll Container -->
+        <div id="scrollContainer" class="roadmap-scroll-area cursor-grab">
+            
+            <!-- Inner Track -->
+            <div id="timelineTrack" class="timeline-track">
+                
+                <!-- Continuous Horizontal Line -->
+                <div class="timeline-line"></div>
 
-      <div class="h-[100vh]"></div>
+                <!-- 1964: TOP -->
+                <div class="milestone-card" data-position="top">
+                    <div class="content-block-top">
+                        <div class="dot dot-top-start"></div>
+                        <div class="dot dot-top-end-anchor"></div>
+                        <div class="vertical-line"></div>
+
+                        <h3 class="milestone-title">Incorporation</h3>
+                        <p class="milestone-desc">Incorporated as a 60% subsidiary of Permutit Co. Ltd., UK.</p>
+                    </div>
+                    <div class="year-badge">1964</div>
+                </div>
+
+                <div class="spacer-segment"></div>
+
+                <!-- 1965: BOTTOM -->
+                <div class="milestone-card" data-position="bottom">
+                    <div class="year-badge">1965</div>
+                    <div class="content-block-bottom">
+                        <div class="vertical-line"></div>
+                        <div class="dot dot-bottom-start-anchor"></div>
+                        <div class="dot dot-bottom-end"></div>
+
+                        <h3 class="milestone-title">Resin Launch</h3>
+                        <p class="milestone-desc">Pioneered production of world-class ion-exchange resins in India.</p>
+                    </div>
+                </div>
+
+                <div class="spacer-segment"></div>
+
+                <!-- 1977: TOP -->
+                <div class="milestone-card" data-position="top">
+                    <div class="content-block-top">
+                        <div class="dot dot-top-start"></div>
+                        <div class="dot dot-top-end-anchor"></div>
+                        <div class="vertical-line"></div>
+
+                        <h3 class="milestone-title">BSE Listing</h3>
+                        <p class="milestone-desc">Listed on the Bombay Stock Exchange (BSE)</p>
+                    </div>
+                    <div class="year-badge">1977</div>
+                </div>
+
+                <div class="spacer-segment"></div>
+
+                <!-- 1978: BOTTOM -->
+                <div class="milestone-card" data-position="bottom">
+                    <div class="year-badge">1978</div>
+                    <div class="content-block-bottom">
+                        <div class="vertical-line"></div>
+                        <div class="dot dot-bottom-start-anchor"></div>
+                        <div class="dot dot-bottom-end"></div>
+
+                        <h3 class="milestone-title">RO Pioneer</h3>
+                        <p class="milestone-desc">First Indian company to introduce the Reverse Osmosis (RO) concept.</p>
+                    </div>
+                </div>
+
+                <div class="spacer-segment"></div>
+
+                 <!-- 1979: TOP -->
+                 <div class="milestone-card" data-position="top">
+                    <div class="content-block-top">
+                         <div class="dot dot-top-start"></div>
+                         <div class="dot dot-top-end-anchor"></div>
+                         <div class="vertical-line"></div>
+
+                        <h3 class="milestone-title">Ankleshwar Plant</h3>
+                        <p class="milestone-desc">Inauguration of the ion-exchange resins manufacturing unit.</p>
+                    </div>
+                    <div class="year-badge">1979</div>
+                </div>
+
+                <!-- End padding -->
+                <div style="width: 100px;"></div>
+
+            </div>
+        </div>
+        
+        <!-- Navigation Hint -->
+        <div class="nav-hint">
+            <i class="fas fa-chevron-left"></i> 
+            <span class="nav-hint-text">Scroll or Drag to Explore</span> 
+            <i class="fas fa-chevron-right"></i>
+        </div>
+
     </div>
 
     <script>
-      const scrollContainer = document.getElementById("scrollContainer");
+        // --- Scrolling Logic ---
+        const scrollContainer = document.getElementById('scrollContainer');
 
-      // 1. Horizontal Scroll on Mouse Wheel
-      scrollContainer.addEventListener("wheel", (evt) => {
-        evt.preventDefault();
-        scrollContainer.scrollLeft += evt.deltaY;
-      });
+        scrollContainer.addEventListener('wheel', (evt) => {
+            evt.preventDefault();
+            scrollContainer.scrollLeft += evt.deltaY;
+        });
 
-      // 2. Drag to Scroll Implementation
-      let isDown = false;
-      let startX;
-      let scrollLeft;
+        let isDown = false;
+        let startX;
+        let scrollLeft;
 
-      scrollContainer.addEventListener("mousedown", (e) => {
-        isDown = true;
-        scrollContainer.classList.add("cursor-grabbing");
-        scrollContainer.classList.remove("cursor-grab");
-        startX = e.pageX - scrollContainer.offsetLeft;
-        scrollLeft = scrollContainer.scrollLeft;
-      });
+        scrollContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            scrollContainer.classList.add('cursor-grabbing');
+            scrollContainer.classList.remove('cursor-grab');
+            startX = e.pageX - scrollContainer.offsetLeft;
+            scrollLeft = scrollContainer.scrollLeft;
+        });
 
-      scrollContainer.addEventListener("mouseleave", () => {
-        isDown = false;
-        scrollContainer.classList.remove("cursor-grabbing");
-        scrollContainer.classList.add("cursor-grab");
-      });
+        scrollContainer.addEventListener('mouseleave', () => {
+            isDown = false;
+            scrollContainer.classList.remove('cursor-grabbing');
+            scrollContainer.classList.add('cursor-grab');
+        });
 
-      scrollContainer.addEventListener("mouseup", () => {
-        isDown = false;
-        scrollContainer.classList.remove("cursor-grabbing");
-        scrollContainer.classList.add("cursor-grab");
-      });
+        scrollContainer.addEventListener('mouseup', () => {
+            isDown = false;
+            scrollContainer.classList.remove('cursor-grabbing');
+            scrollContainer.classList.add('cursor-grab');
+        });
 
-      scrollContainer.addEventListener("mousemove", (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - scrollContainer.offsetLeft;
-        const walk = (x - startX) * 1.5; // Scroll-fast multiplier
-        scrollContainer.scrollLeft = scrollLeft - walk;
-      });
+        scrollContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - scrollContainer.offsetLeft;
+            const walk = (x - startX) * 1.5;
+            scrollContainer.scrollLeft = scrollLeft - walk;
+        });
+
+        // --- INTERSECTION OBSERVER (SCROLL REVEAL) ---
+        
+        const observerOptions = {
+            root: scrollContainer,
+            threshold: 0.25 
+        };
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    scrollObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe existing items
+        document.querySelectorAll('.milestone-card').forEach(item => {
+            scrollObserver.observe(item);
+        });
+
     </script>
-  </body>
+</body>
 </html>
