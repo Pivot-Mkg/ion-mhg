@@ -1508,3 +1508,8 @@ footer .link-secondary:hover {
   }
 }
 /* roadmap ends here */
+
+
+.impact-card-body{
+        padding: 0px 25px;
+    }

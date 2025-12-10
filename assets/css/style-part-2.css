@@ -1,0 +1,197 @@
+.dot-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dot circle {
+  transition: fill 0.3s ease;
+}
+
+.secondary-case-studies-section {
+  position: relative;
+  padding: 0;
+  
+   /* NEW: 80% width and centered */
+  /* width: 90%; */
+  margin: 0 auto;
+  border-radius: 16px;        /* optional: to match card look */
+   
+}
+
+/* full row flex only inside this section */
+.secondary-case-studies-section .row {
+  display: flex;
+}
+
+/* columns */
+.secondary-case-studies-section .col-left,
+.secondary-case-studies-section .col-right {
+  flex: 1;
+}
+
+/* FULL‑WIDTH background image */
+.secondary-case-studies-section .case-bg {
+  position: absolute;
+  inset: 0;
+  background: url("./assets/img/case-study-bg-1.png") center/cover no-repeat;
+  /* filter: saturate(1.1); */
+  transition:  0.3s ;   /* fade */
+  z-index: 0;
+   opacity: 1;
+}
+
+.secondary-case-studies-section .case-bg.is-fading {
+  /* opacity: 0; */
+}
+
+/* make content sit above bg */
+.secondary-case-studies-section .col-left,
+.secondary-case-studies-section .col-right,
+.secondary-case-studies-section .case-title {
+  position: relative;
+  z-index: 1;
+}
+
+/* title on left */
+.secondary-case-studies-section .col-left {
+  min-height: 400px;
+}
+.secondary-case-studies-section .case-title {
+  position: absolute;
+  left: 40px;
+  top: 40px;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* Right card/swiper (no solid bg now) */
+.secondary-case-studies-section .col-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: transparent;
+  position: relative;
+}
+
+.secondary-case-studies-section .case-swiper {
+  max-width: 420px;
+}
+
+.secondary-case-studies-section .case-card {
+  background: #fff;
+  padding: 40px 40px 36px;
+  border-radius: 18px;
+  position: relative;          /* for tag + pagination */
+}
+
+/* Top dots */
+.secondary-case-studies-section .case-dots {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.secondary-case-studies-section .case-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #d4d8e5;
+}
+.secondary-case-studies-section .case-dots span:first-child {
+  background: #1a73e8;
+}
+
+/* Tag */
+.secondary-case-studies-section .case-tag {
+  position: absolute;
+  top: 9px;
+  right: 40px;
+
+  display: inline-block;
+  background: #005BAB;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  border: none;
+}
+
+/* Text styles */
+.secondary-case-studies-section .case-card h3 {
+  font-size: 22px;
+  line-height: 1.3;
+  margin-bottom: 14px;
+}
+
+.secondary-case-studies-section .case-card p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 18px;
+}
+
+.secondary-case-studies-section .case-card h4 {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.secondary-case-studies-section .case-results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.secondary-case-studies-section .case-results li {
+  font-size: 13px;
+  color: #4b5563;
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 6px;
+}
+.secondary-case-studies-section .case-results li::before {
+  content: "•";
+  position: absolute;
+  left: 6px;
+  top: 0;
+  color: #22c55e;
+}
+
+/* Swiper pagination dots similar to screenshot */
+.secondary-case-studies-section .swiper-pagination-bullet {
+   width: 6px;
+  height: 6px;
+  background: #cbd5e1;
+  opacity: 1;
+}
+.secondary-case-studies-section .swiper-pagination-bullet-active {
+  background: #005BAB;
+}
+
+.case-study-swiper-contaiiner {
+    position: absolute;
+    top: 7em;
+    z-index: 999;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+    bottom: var(--swiper-pagination-bottom,320px);
+    top: var(--swiper-pagination-top,auto);
+    left: 30px;
+    width: fit-content;
+} */
+
+/* Pagination – centered at bottom of card */
+.secondary-case-studies-section .swiper-pagination {
+  position: absolute;
+  bottom: 283px;
+    left: 17%;
+  transform: translateX(-50%);
+  width: auto;
+}
+
+  
