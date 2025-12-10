@@ -28,7 +28,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.reveal').forEach((block) => observer.observe(block));
 
+  const solutionSlider = document.querySelector('.solution-swiper');
+
   const productSliderEl = document.querySelector('.product-swiper');
+  let productSwiper;
+  let solutionSwiper;
   if (productSliderEl) {
     // Initialize AOS
     AOS.init({
@@ -146,7 +150,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     stats.forEach(stat => statsObserver.observe(stat));
 
-    new Swiper(productSliderEl, {
+
+
+    productSwiper = new Swiper(productSliderEl, {
       slidesPerView: 1,
       spaceBetween: 16,
       loop: true,
@@ -164,10 +170,67 @@ window.addEventListener('DOMContentLoaded', () => {
           spaceBetween: 18,
         },
         992: {
-          slidesPerView: 3.5,
+          slidesPerView: 3,
           spaceBetween: 22,
         },
       },
+    });
+
+    if (solutionSlider) {
+      solutionSwiper = new Swiper(solutionSlider, {
+      slidesPerView: 1,
+      spaceBetween: 16,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        576: {
+          slidesPerView: 2,
+          spaceBetween: 18,
+        },
+        992: {
+          slidesPerView: 3,
+          spaceBetween: 22,
+        },
+      },
+      });
+    }
+
+  }
+
+  const solutionTabs = document.querySelectorAll('.solution-tab');
+  const solutionPanels = document.querySelectorAll('.solution-panel');
+
+  if (solutionTabs.length && solutionPanels.length) {
+    const activatePanel = (targetId) => {
+      solutionTabs.forEach((tab) => {
+        tab.classList.toggle('active', tab.dataset.tab === targetId);
+      });
+
+      solutionPanels.forEach((panel) => {
+        panel.classList.toggle('active', panel.id === targetId);
+      });
+
+      if (targetId === 'products-panel' && productSwiper) {
+        productSwiper.update();
+      }
+    };
+
+    solutionTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const targetId = tab.dataset.tab;
+        if (!targetId || tab.classList.contains('active')) {
+          return;
+        }
+
+        activatePanel(targetId);
+      });
     });
   }
 
@@ -191,7 +254,7 @@ window.addEventListener('DOMContentLoaded', () => {
           spaceBetween: 18,
         },
         992: {
-          slidesPerView: 3.5,
+          slidesPerView: 3,
           spaceBetween: 22,
         },
       },
@@ -279,3 +342,4 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
